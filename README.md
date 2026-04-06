@@ -1,13 +1,9 @@
 # UART-Design-and-RTL-to-GDS-Implementation-using-OpenROAD
 This project implements a UART in Verilog with FSM-based transmitter, receiver, and baud generator. Pipelining improves timing performance. It demonstrates full RTL-to-GDS flow using OpenROAD, including synthesis, placement, CTS, routing, and timing analysis, along with the commands required to run the flow.
 
-# UART-Design-and-RTL-to-GDS-Implementation-using-OpenROAD
-
-This project implements a UART in Verilog with FSM-based transmitter, receiver, and baud generator. Pipelining improves timing performance. It demonstrates full RTL-to-GDS flow using OpenROAD, including synthesis, placement, CTS, routing, and timing analysis, along with the commands required to run the flow.
-
 ---
 
-## 🚀 Key Features
+## Key Features
 - UART design using Verilog (TX + RX + Baud Generator)
 - FSM-based architecture
 - Pipelined design for improved timing
@@ -16,7 +12,7 @@ This project implements a UART in Verilog with FSM-based transmitter, receiver, 
 
 ---
 
-## 🧠 Architecture
+## Architecture
 The design consists of:
 - Baud Rate Generator
 - UART Transmitter (FSM-based)
@@ -25,7 +21,7 @@ The design consists of:
 
 ---
 
-## 🛠️ OpenROAD Flow
+## OpenROAD Flow
 The design is implemented using OpenROAD RTL-to-GDS flow:
 
 - Synthesis  
@@ -40,7 +36,7 @@ Platform: Linux
 
 ---
 
-## ▶️ How to Run (Adding UART Design to ORFS)
+## How to Run (Adding UART Design to ORFS)
 
 This section explains how to integrate and run the UART design using OpenROAD-flow-scripts (ORFS).
 
@@ -89,7 +85,7 @@ make DESIGN_CONFIG=./designs/sky130hd/uart_new/config.mk
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 rtl/ → Verilog design
 config/ → OpenROAD config
@@ -97,21 +93,37 @@ constraints/ → SDC file
 results/ → Final outputs
 reports/ → Reports
 
-
 ---
 
-## 📊 Results
+## 📊 Results & Design Flow
+  
+### Floorplan
+- Output: `2_floorplan.odb`
+  <img width="1919" height="1022" alt="image" src="https://github.com/user-attachments/assets/75381812-6930-4f2a-b964-986057974976" />
 
 ### Placement
-![Placement](reports/final_reports/final_placement.webp)
+- Output: `3_place.odb`  
+<img width="1919" height="1021" alt="image" src="https://github.com/user-attachments/assets/302f9e85-b445-4c74-bf3b-8f2558fc60c3" />
+
+### Clock Tree Synthesis (CTS)
+- Output: `4_cts.odb`
 
 ### Routing
+- Output: `5_route.odb`  
 ![Routing](reports/final_reports/final_routing.webp)
-<img width="1879" height="892" alt="image" src="https://github.com/user-attachments/assets/1f61e6d5-0b4d-4ec2-bd08-233b4616428b" />
+
+### Final Design
+- Outputs: `6_final.def`, `6_final.gds`, `6_final.v`
+  <img width="1271" height="612" alt="image" src="https://github.com/user-attachments/assets/e0030041-46a2-4e81-b104-20dd76cff78d" /><img width="1271" height="612" alt="image" src="https://github.com/user-attachments/assets/c4bd1941-cb7f-40df-80e3-257cbe7ce840" />
+
 
 ---
 
-## 🔧 Tools Used
+This demonstrates the complete RTL-to-GDS flow using OpenROAD, covering all stages from synthesis to final physical design.
+
+---
+
+## Tools Used
 - Verilog HDL  
 - OpenROAD  
 - OpenROAD-flow-scripts  
