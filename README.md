@@ -152,4 +152,4 @@ This demonstrates the complete RTL-to-GDS flow using OpenROAD, covering all stag
 
 ## Author
 Rajesh Kumar  
-Digital VLSI | RTL Design | FPGA | OpenROAD
+Physical Design
