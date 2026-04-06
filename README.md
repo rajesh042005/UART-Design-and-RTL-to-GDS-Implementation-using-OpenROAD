@@ -103,11 +103,11 @@ make DESIGN_CONFIG=./designs/sky130hd/uart_new/config.mk
 
 ## Project Structure
 
-rtl/ → Verilog design 
-config/ → OpenROAD config
-constraints/ → SDC file
-results/ → Final outputs
-reports/ → Reports
+- `rtl/` → Verilog design  
+- `config/` → OpenROAD config  
+- `constraints/` → SDC file  
+- `results/` → Final outputs  
+- `reports/` → Reports  
 
 ---
 
@@ -130,8 +130,11 @@ reports/ → Reports
 
 ### Final Design
 - Outputs: `6_final.def`, `6_final.gds`, `6_final.v`
-  <img width="1271" height="612" alt="image" src="https://github.com/user-attachments/assets/e0030041-46a2-4e81-b104-20dd76cff78d" /><img width="1271" height="612" alt="image" src="https://github.com/user-attachments/assets/c4bd1941-cb7f-40df-80e3-257cbe7ce840" />
 
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/e0030041-46a2-4e81-b104-20dd76cff78d" width="48%" />
+  <img src="https://github.com/user-attachments/assets/c4bd1941-cb7f-40df-80e3-257cbe7ce840" width="48%" />
+</p>
 
 ---
 
