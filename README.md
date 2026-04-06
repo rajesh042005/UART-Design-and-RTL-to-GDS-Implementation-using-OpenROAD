@@ -111,7 +111,7 @@ make DESIGN_CONFIG=./designs/sky130hd/uart_new/config.mk
 
 ---
 
-## 📊 Results & Design Flow
+## Results & Design Flow
   
 ### Floorplan
 - Output: `2_floorplan.odb`
