@@ -41,10 +41,12 @@ Platform: Linux
 This section explains how to integrate and run the UART design using OpenROAD-flow-scripts (ORFS).
 
 ### Step 1: Add Verilog Source Files
+```
 cd designs/src  
 mkdir uart_new  
 cd uart_new  
-vi uart.v  
+vi uart.v
+```
 
 Paste UART RTL code.
 
