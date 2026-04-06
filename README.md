@@ -53,13 +53,14 @@ Paste UART RTL code.
 ---
 
 ### Step 2: Create Config File
+```
 cd ../../sky130hd  
 mkdir uart_new  
 cd uart_new  
 vi config.mk  
-
+```
 Add:
-
+```
 export PLATFORM = sky130hd
 export DESIGN_NAME = uart_new
 
@@ -68,23 +69,24 @@ export SDC_FILE = ./designs/sky130hd/uart_new/constraint.sdc
 
 export DIE_AREA = 0 0 500 500
 export CORE_AREA = 50 50 450 450
-
+```
 ---
 
 ### Step 3: Add Constraints
 vi constraint.sdc  
 
-
+```
 create_clock -period 20 [get_ports clk]
 set_input_delay 2 -clock clk [all_inputs]
 set_output_delay 2 -clock clk [all_outputs]
-
+```
 
 ---
 
 ### Step 4: Run Flow
+```
 make DESIGN_CONFIG=./designs/sky130hd/uart_new/config.mk
-
+```
 ---
 
 ## Project Structure
