@@ -62,7 +62,7 @@ vi config.mk
 Add:
 ```
 export PLATFORM = sky130hd
-export DESIGN_NAME = uart_new
+export DESIGN_NAME = uart_top
 
 export VERILOG_FILES = ./designs/src/uart_new/uart.v
 export SDC_FILE = ./designs/sky130hd/uart_new/constraint.sdc
@@ -115,10 +115,12 @@ make DESIGN_CONFIG=./designs/sky130hd/uart_new/config.mk
   
 ### Floorplan
 - Output: `2_floorplan.odb`
+  
   <img width="1919" height="1022" alt="image" src="https://github.com/user-attachments/assets/75381812-6930-4f2a-b964-986057974976" />
 
 ### Placement
-- Output: `3_place.odb`  
+- Output: `3_place.odb`
+  
 <img width="1919" height="1021" alt="image" src="https://github.com/user-attachments/assets/302f9e85-b445-4c74-bf3b-8f2558fc60c3" />
 
 ### Clock Tree Synthesis (CTS)
@@ -152,4 +154,4 @@ This demonstrates the complete RTL-to-GDS flow using OpenROAD, covering all stag
 
 ## Author
 Rajesh Kumar  
-Physical Design
+Physical Designer
