@@ -1,25 +1,57 @@
-# UART-Design-and-RTL-to-GDS-Implementation-using-OpenROAD
-This project implements a UART in Verilog with FSM-based transmitter, receiver, and baud generator. Pipelining improves timing performance. It demonstrates full RTL-to-GDS flow using OpenROAD, including synthesis, placement, CTS, routing, and timing analysis, along with the commands required to run the flow.
+<h1 align="center">UART RTL-to-GDS Implementation using OpenROAD</h1>
+
+<div align="center">
+
+<img src="https://img.shields.io/badge/Flow-RTL--to--GDS-blue?style=flat&logo=verilog"/>
+<img src="https://img.shields.io/badge/Tool-OpenROAD-orange?style=flat"/>
+<img src="https://img.shields.io/badge/Language-Verilog-green?style=flat"/>
+<img src="https://img.shields.io/badge/Platform-Linux-lightgrey?style=flat"/>
+<img src="https://img.shields.io/badge/Tech-Sky130HD-blueviolet?style=flat"/>
+
+<br>
+
+<!-- <img src="https://img.shields.io/github/stars/rajesh042005/UART-Design-and-RTL-to-GDS-Implementation-using-OpenROAD?style=social"/>
+<img src="https://img.shields.io/github/forks/rajesh042005/UART-Design-and-RTL-to-GDS-Implementation-using-OpenROAD?style=social"/> -->
+<img src="https://img.shields.io/github/issues/rajesh042005/UART-Design-and-RTL-to-GDS-Implementation-using-OpenROAD"/>
+<img src="https://img.shields.io/github/license/rajesh042005/UART-Design-and-RTL-to-GDS-Implementation-using-OpenROAD"/>
+
+</div>
+
+---
+
+<p align="center">
+A complete RTL-to-GDS implementation of a UART in Verilog using OpenROAD, demonstrating synthesis, placement, CTS, routing, and timing closure in an ASIC design flow.
+</p>
+
+<!-- # UART-Design-and-RTL-to-GDS-Implementation-using-OpenROAD
+This project implements a UART in Verilog with FSM-based transmitter, receiver, and baud generator. Pipelining improves timing performance. It demonstrates full RTL-to-GDS flow using OpenROAD, including synthesis, placement, CTS, routing, and timing analysis, along with the commands required to run the flow. -->
 
 ---
 
 ## UART Module Overview
 
-This project implements a UART (Universal Asynchronous Receiver/Transmitter) in Verilog, designed for easy integration with FPGA or ASIC designs. It supports configurable clock frequency and baud rate via parameters. The top module, uart_top, combines three submodules:
+This UART design is modular and consists of three key blocks:
 
-  - Baud Rate Generator (baud_rate_generator) – Produces precise timing ticks based on the system clock and desired baud rate (with 16× oversampling). These ticks  synchronize both the transmitter and receiver.
-  
-  - Transmitter (uart_transmitter) – Sends 8-bit data serially over the tx line. It has an FSM with four states: IDLE, START, DATA, and STOP. A pipeline stage      ensures accurate sampling at the midpoint of each bit, improving timing reliability. The module also provides tx_busy to indicate ongoing transmission.
+- **Baud Rate Generator**  
+  Generates timing ticks using 16× oversampling based on system clock and baud rate.
 
-  - Receiver (uart_receiver) – Captures serial data from the rx line and outputs 8-bit parallel data. It includes input synchronization and a pipelined sampling stage to reduce metastability issues. The FSM also has IDLE, START, DATA, and STOP states, and asserts rx_done when a full byte is received correctly.
+- **UART Transmitter**  
+  FSM-based design with states: `IDLE → START → DATA → STOP`.  
+  Uses pipelining to ensure accurate bit sampling and reliable transmission.
 
-The design uses pipelined stages in both transmission and reception for precise bit sampling, reducing timing errors and making it robust for standard UART communication. Parameters such as CLOCK_FREQ and BAUD_RATE make the module flexible for different system clocks and communication speeds.
+- **UART Receiver**  
+  Includes input synchronization and pipelined sampling to reduce metastability.  
+  Outputs valid data using `rx_done` signal after successful reception.
+
+The design is parameterized (`CLOCK_FREQ`, `BAUD_RATE`) for flexibility across different systems.
 
 ---
 
 ## Block Diagram
 
-<img width="1202" height="892" alt="image" src="https://github.com/user-attachments/assets/059caabc-88a6-4ff3-b13d-e5f7f06d782c" />
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/059caabc-88a6-4ff3-b13d-e5f7f06d782c" width="70%">
+</p>
 
 ---
 
@@ -44,25 +76,33 @@ The design consists of:
 ## OpenROAD Flow
 The design is implemented using OpenROAD RTL-to-GDS flow:
 
-- Synthesis  
-- Floorplanning  
-- Placement  
-- Clock Tree Synthesis (CTS)  
-- Routing  
-- Timing Analysis  
-
-Technology: Sky130HD  
-Platform: Linux  
+<div align="center">
+  <pre>
+Verilog RTL  
+↓  
+Synthesis (Yosys)  
+↓  
+Floorplanning  
+↓  
+Placement  
+↓  
+Clock Tree Synthesis (CTS)  
+↓  
+Routing  
+↓  
+GDSII (Final Layout) 
+  </pre>
+</div>
 
 ---
 
 ## Project Structure
 
-- `rtl/` → Verilog design  
-- `config/` → OpenROAD config  
-- `constraints/` → SDC file  
-- `results/` → Final outputs  
-- `reports/` → Reports
+- `rtl/` → Verilog source code  
+- `config/` → OpenROAD configuration  
+- `constraints/` → Timing constraints (SDC)  
+- `results/` → Final physical design outputs  
+- `reports/` → Timing and synthesis reports  
 
 ---
 
@@ -71,7 +111,7 @@ Platform: Linux
 This section explains how to integrate and run the UART design using OpenROAD-flow-scripts (ORFS).
 > (assuming the path - OpenROAD-flow-scripts/flow )
 
-### Step 1: Add Verilog Source Files
+### 🔹 Step 1: Add Verilog Source Files
 ```
 cd designs/src  
 mkdir uart_new  
@@ -83,7 +123,7 @@ Paste UART RTL code.
 
 ---
 
-### Step 2: Create Config File
+### 🔹 Step 2: Create Config File
 ```
 cd ../../sky130hd  
 mkdir uart_new  
@@ -103,7 +143,7 @@ export CORE_AREA = 50 50 450 450
 ```
 ---
 
-### Step 3: Add Constraints
+### 🔹 Step 3: Add Constraints
 vi constraint.sdc  
 
 Add:
@@ -127,14 +167,14 @@ set_output_delay [expr $clk_period * $clk_io_pct] -clock $clk_name [all_outputs]
 
 ---
 
-### Step 4: Run Flow
+### 🔹 Step 4: Run Flow
 ```
 make DESIGN_CONFIG=./designs/sky130hd/uart_new/config.mk
 ```
 ---
 
 ## Results & Design Flow
-  
+  This section shows stage-wise outputs from the OpenROAD physical design flow:
 ### Floorplan
 - Output: `2_floorplan.odb`
   
@@ -168,7 +208,7 @@ make DESIGN_CONFIG=./designs/sky130hd/uart_new/config.mk
 - Outputs: `6_final.odb` 
 
   <img width="1919" height="1018" alt="image" src="https://github.com/user-attachments/assets/ffe26331-a35e-4548-b088-cc1c377b158d" />
->Final optimized layout after timing closure, with improved slack and verified design integrity.
+>Final optimized layout after timing closure with improved slack and verified design integrity.
 
 - Outputs: `6_final.gds`
   
@@ -183,20 +223,15 @@ make DESIGN_CONFIG=./designs/sky130hd/uart_new/config.mk
 
 ---
 
-This demonstrates the complete RTL-to-GDS flow using OpenROAD, covering all stages from synthesis to final physical design.
-
----
-
 ## Tools Used
-- Verilog HDL  
-- OpenROAD  
-- OpenROAD-flow-scripts  
+- Verilog 
+- OpenROAD   
 - Linux
 - Klayout
 
 ---
+<p align="center">
+This demonstrates the complete RTL-to-GDS flow using OpenROAD, covering all stages from synthesis to final physical design.
+</p>
 
 
-$$\color{red}{\textbf{\textit{Physical Designing}}}$$
-
----
