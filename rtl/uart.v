@@ -89,129 +89,252 @@ module baud_rate_generator #(
 
 endmodule
 
-module uart_transmitter(
-    input wire clk,             
-    input wire reset_n,         
-    input wire baud_tick,       
-    input wire tx_start,        
-    input wire [7:0] tx_data,   
-    output reg tx_busy,         
-    output reg tx               
-);
-
-    // State definitions
-    localparam IDLE  = 2'b00;
-    localparam START = 2'b01;
-    localparam DATA  = 2'b10;
-    localparam STOP  = 2'b11;
-
-    reg [1:0] state;
-    reg [3:0] tick_count;
-    reg [2:0] bit_count;
-    reg [7:0] data_reg;
-
-    // 🔥 Pipeline register (Stage-1)
-    reg tx_sample_stage;
-
-    // =========================
-    // 🔹 STAGE 1: Detect sampling event
-    // =========================
-    always @(posedge clk or negedge reset_n) begin
-        if (!reset_n)
-            tx_sample_stage <= 0;
-        else if (baud_tick && tick_count == 15)
-            tx_sample_stage <= 1;
-        else
-            tx_sample_stage <= 0;
-    end
-
-    // =========================
-    // 🔹 STAGE 2: Main FSM
-    // =========================
-    always @(posedge clk or negedge reset_n) begin
-        if (!reset_n) begin
-            state <= IDLE;
-            tick_count <= 0;
-            bit_count <= 0;
-            data_reg <= 0;
-            tx <= 1;  
-            tx_busy <= 0;
-        end else begin
-            case (state)
-
-                // ================= IDLE =================
-                IDLE: begin
-                    tx <= 1;
-                    tick_count <= 0;
-                    bit_count <= 0;
-
-                    if (tx_start && !tx_busy) begin
-                        data_reg <= tx_data;
-                        state <= START;
-                        tx_busy <= 1;
-                    end else begin
-                        tx_busy <= 0;
-                    end
-                end
-
-                // ================= START =================
-                START: begin
-                    tx <= 0;
-
-                    if (baud_tick) begin
-                        if (tick_count == 15) begin
-                            tick_count <= 0;
-                            state <= DATA;
-                        end else begin
-                            tick_count <= tick_count + 1;
-                        end
-                    end
-                end
-
-                // ================= DATA (PIPELINED) =================
-                DATA: begin
-                    tx <= data_reg[0];
-
-                    // Stage 1: counter update
-                    if (baud_tick) begin
-                        tick_count <= tick_count + 1;
-                    end
-
-                    // Stage 2: pipelined operations
-                    if (tx_sample_stage) begin
-                        tick_count <= 0;
-                        data_reg <= {1'b0, data_reg[7:1]};
-
-                        if (bit_count == 7) begin
-                            bit_count <= 0;
-                            state <= STOP;
-                        end else begin
-                            bit_count <= bit_count + 1;
-                        end
-                    end
-                end
-
-                // ================= STOP =================
-                STOP: begin
-                    tx <= 1;
-
-                    if (baud_tick) begin
-                        if (tick_count == 15) begin
-                            tick_count <= 0;
-                            state <= IDLE;
-                            tx_busy <= 0;
-                        end else begin
-                            tick_count <= tick_count + 1;
-                        end
-                    end
-                end
-
-                default: state <= IDLE;
-
-            endcase
-        end
-    end
-
+module uart_transmitter(
+
+    input wire clk,             
+
+    input wire reset_n,         
+
+    input wire baud_tick,       
+
+    input wire tx_start,        
+
+    input wire [7:0] tx_data,   
+
+    output reg tx_busy,         
+
+    output reg tx               
+
+);
+
+
+
+    // State definitions
+
+    localparam IDLE  = 2'b00;
+
+    localparam START = 2'b01;
+
+    localparam DATA  = 2'b10;
+
+    localparam STOP  = 2'b11;
+
+
+
+    reg [1:0] state;
+
+    reg [3:0] tick_count;
+
+    reg [2:0] bit_count;
+
+    reg [7:0] data_reg;
+
+
+
+    // Pipeline register (Stage-1)
+
+    reg tx_sample_stage;
+
+
+
+    // =========================
+
+    // 🔹 STAGE 1: Detect sampling event
+
+    // =========================
+
+    always @(posedge clk or negedge reset_n) begin
+
+        if (!reset_n)
+
+            tx_sample_stage <= 0;
+
+        else if (baud_tick && tick_count == 15)
+
+            tx_sample_stage <= 1;
+
+        else
+
+            tx_sample_stage <= 0;
+
+    end
+
+
+
+    // =========================
+
+    // 🔹 STAGE 2: Main FSM
+
+    // =========================
+
+    always @(posedge clk or negedge reset_n) begin
+
+        if (!reset_n) begin
+
+            state <= IDLE;
+
+            tick_count <= 0;
+
+            bit_count <= 0;
+
+            data_reg <= 0;
+
+            tx <= 1;  
+
+            tx_busy <= 0;
+
+        end else begin
+
+            case (state)
+
+
+
+                // ================= IDLE =================
+
+                IDLE: begin
+
+                    tx <= 1;
+
+                    tick_count <= 0;
+
+                    bit_count <= 0;
+
+
+
+                    if (tx_start && !tx_busy) begin
+
+                        data_reg <= tx_data;
+
+                        state <= START;
+
+                        tx_busy <= 1;
+
+                    end else begin
+
+                        tx_busy <= 0;
+
+                    end
+
+                end
+
+
+
+                // ================= START =================
+
+                START: begin
+
+                    tx <= 0;
+
+
+
+                    if (baud_tick) begin
+
+                        if (tick_count == 15) begin
+
+                            tick_count <= 0;
+
+                            state <= DATA;
+
+                        end else begin
+
+                            tick_count <= tick_count + 1;
+
+                        end
+
+                    end
+
+                end
+
+
+
+                // ================= DATA (PIPELINED) =================
+
+                DATA: begin
+
+                    tx <= data_reg[0];
+
+
+
+                    // Stage 1: counter update
+
+                    if (baud_tick) begin
+
+                        tick_count <= tick_count + 1;
+
+                    end
+
+
+
+                    // Stage 2: pipelined operations
+
+                    if (tx_sample_stage) begin
+
+                        tick_count <= 0;
+
+                        data_reg <= {1'b0, data_reg[7:1]};
+
+
+
+                        if (bit_count == 7) begin
+
+                            bit_count <= 0;
+
+                            state <= STOP;
+
+                        end else begin
+
+                            bit_count <= bit_count + 1;
+
+                        end
+
+                    end
+
+                end
+
+
+
+                // ================= STOP =================
+
+                STOP: begin
+
+                    tx <= 1;
+
+
+
+                    if (baud_tick) begin
+
+                        if (tick_count == 15) begin
+
+                            tick_count <= 0;
+
+                            state <= IDLE;
+
+                            tx_busy <= 0;
+
+                        end else begin
+
+                            tick_count <= tick_count + 1;
+
+                        end
+
+                    end
+
+                end
+
+
+
+                default: state <= IDLE;
+
+
+
+            endcase
+
+        end
+
+    end
+
+
+
 endmodule
 module uart_receiver(
     input wire clk,
@@ -298,7 +421,7 @@ module uart_receiver(
                     end
                 end
 
-                // 🔥 PIPELINED DATA STATE
+                // PIPELINED DATA STATE
                 DATA: begin
                     if (baud_tick) begin
                         tick_count <= tick_count + 1;
