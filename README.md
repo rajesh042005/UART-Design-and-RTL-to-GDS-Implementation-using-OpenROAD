@@ -139,39 +139,47 @@ make DESIGN_CONFIG=./designs/sky130hd/uart_new/config.mk
 - Output: `2_floorplan.odb`
   
   <img width="1918" height="1021" alt="image" src="https://github.com/user-attachments/assets/75381812-6930-4f2a-b964-986057974976" />
+>Floorplan initialized with placement rows and power distribution grid, prior to standard cell placement.
 
 ### Placement
 - Output: `3_place.odb`
   
   <img width="1918" height="1021" alt="image" src="https://github.com/user-attachments/assets/302f9e85-b445-4c74-bf3b-8f2558fc60c3" />
+>Standard cells placed and globally optimized across the core area, achieving an initial balanced distribution for timing and congestion.
 
 ### Clock Tree Synthesis (CTS)
 - Output: `4_cts.odb`
 
   <img width="1919" height="1016" alt="image" src="https://github.com/user-attachments/assets/c94daf9b-c14f-4d23-9ad7-57de5ddbaa78" />
+>Clock tree synthesized with buffered clock distribution network, minimizing skew and ensuring balanced timing across all sequential elements.
 
 - Core_Clock_Layout
   
   <img width="602" height="602" alt="image" src="https://github.com/user-attachments/assets/74150322-25d5-4074-a9e5-3087a9dc60b2" />
+>Detailed core clock layout illustrating buffered clock paths and balanced branching for uniform clock signal propagation.
 
 ### Routing
 - Output: `5_route.odb`
    
   <img width="605" height="603" alt="image" src="https://github.com/user-attachments/assets/26c8ecec-8b00-4d68-b5aa-60178b2edd99" />
+>Fully routed design with completed global and detailed routing, ensuring all signal connections meet design rules and connectivity requirements.
 
 ### Final Design
 - Outputs: `6_final.odb` 
 
   <img width="1919" height="1018" alt="image" src="https://github.com/user-attachments/assets/ffe26331-a35e-4548-b088-cc1c377b158d" />
+>Final optimized layout after timing closure, with improved slack and verified design integrity.
 
 - Outputs: `6_final.gds`
   
   <img width="1918" height="1021" alt="image" src="https://github.com/user-attachments/assets/10358681-3269-4032-aaa6-ff3f20501978" />
+>Generated GDSII layout representing the tape-out ready physical design for fabrication.
 
 ### Final Worst Path
 - Output: `final_worst_path.webp`
    
   <img width="603" height="602" alt="image" src="https://github.com/user-attachments/assets/a98422f6-4c29-4c6c-b306-eea40b7e8fab" />
+>Visualization of the critical (worst-case) timing path, highlighting delay-sensitive regions across the design.
 
 ---
 
@@ -188,3 +196,6 @@ This demonstrates the complete RTL-to-GDS flow using OpenROAD, covering all stag
 
 ---
 
+<span style="color:red">Your colored text here</span>
+                                                                                                                    
+---
