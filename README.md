@@ -196,6 +196,7 @@ This demonstrates the complete RTL-to-GDS flow using OpenROAD, covering all stag
 
 ---
 
-<span style="color:red">Your colored text here</span>
-                                                                                                                    
+
+$$\color{red}{\textbf{\textit{Physical Designing}}}$$
+
 ---
